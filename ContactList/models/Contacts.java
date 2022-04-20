@@ -18,16 +18,20 @@ public class Contacts {
 
 
     public Contacts(String name , String phoneNumber , String birthDate) throws ParseException{
+        if(name == null || name.isBlank() || phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() > 9 ){
+            throw new IllegalArgumentException("input not acceptabel...");
+        }
         this.name = name ;
         this.phoneNumber = phoneNumber ;
         this.birthDate = birthDate ;
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        formatter.setLenient(false);
-        Date toDate = formatter.parse(birthDate); //convert string to date type 
-        long toMillisecond = toDate.getTime() ; //convert date to toMillisecond
-        long diff = new Date().getTime() - toMillisecond ;
-        this.age = (int)(TimeUnit.MILLISECONDS.toDays(diff) / 365);
+        this.age = findAge(birthDate);
 
+    }
+    public Contacts (Contacts contacts ){
+        this.age = contacts.age ;
+        this.birthDate = contacts.birthDate;
+        this.name = contacts.name;
+        this.phoneNumber = contacts.phoneNumber;
     }
 
     public String toString() {
@@ -39,6 +43,9 @@ public class Contacts {
     }
 
     public void setName(String name) {
+        if(name.isBlank() || name == null){
+            throw new IllegalArgumentException("input for name illegal ...");
+        }
         this.name = name;
     }
 
@@ -47,6 +54,9 @@ public class Contacts {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber.isBlank() || phoneNumber == null || phoneNumber.length()> 9){
+            throw new IllegalArgumentException("input for phone illegal ...");
+        }
         this.phoneNumber = phoneNumber;
     }
 
@@ -54,8 +64,9 @@ public class Contacts {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(String birthDate) throws ParseException {
         this.birthDate = birthDate;
+        setAge(findAge(birthDate));
     }
 
     public int getAge() {
@@ -64,6 +75,14 @@ public class Contacts {
 
     public void setAge(int age) {
         this.age = age;
+    }
+    public static int findAge(String birthDate) throws ParseException{
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        formatter.setLenient(false);
+        Date toDate = formatter.parse(birthDate); //convert string to date type 
+        long toMillisecond = toDate.getTime() ; //convert date to toMillisecond
+        long diff = new Date().getTime() - toMillisecond ;
+        return (int)(TimeUnit.MILLISECONDS.toDays(diff) / 365);
     }
 
 
