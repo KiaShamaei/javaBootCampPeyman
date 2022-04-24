@@ -1,29 +1,44 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.Scanner;
 
-import models.Contacts ;
+import models.Contacts;
 import models.ContactsManger;
-
 
 public class Main {
 
-    public static void main(String[] args) {
+	static ContactsManger manager = new ContactsManger();
+
+	public static void main(String[] args) {
        try{
-           ContactsManger manger = new ContactsManger();
-           manger.addContact(new Contacts("kia", "0022124" , "11/11/1992"));
-           manger.addContact(new Contacts("kami", "0022125" , "10/11/1984"));
 
-           manger.addContact(new Contacts("kam", "0022126" , "11/11/1992"));
+          loadContact("contact.txt");
 
-           manger.addContact(new Contacts("nader", "0022127" , "11/11/1992"));
-           System.out.println(manger);
-
-       }catch(ParseException e){
+       }catch(FileNotFoundException e){
            System.out.println(e.getMessage());
        }finally{
         System.out.println("process is Done!");
+		System.out.println(manager);
        }
 
         
     }
-    
+
+	public static void loadContact(String addressFile) throws FileNotFoundException {
+		FileInputStream fis = new FileInputStream(addressFile);
+		Scanner scan = new Scanner(fis);
+		while (scan.hasNextLine()) {
+			try {
+				Contacts contact = new Contacts(scan.next(), scan.next(), scan.next());
+				manager.addContact(contact);
+
+			} catch (ParseException e) {
+				System.out.println(e.getMessage());
+			}
+
+		}
+
+	}
+
 }

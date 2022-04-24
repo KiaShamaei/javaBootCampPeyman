@@ -16,7 +16,11 @@ public class ContactsManger {
     public void addContact(Contacts contact){
         contacts.add(new Contacts(contact));
     }
+	//remove by name get string name 
     public void removeContacts (String name){
+		if (contacts.isEmpty()){
+			throw new IllegalStateException("cant remove item from empthy list ...!");
+		}
         for(int i = 0 ; i < contacts.size() ; i ++){
             if(contacts.get(i).getName().equals(name)){
                 contacts.remove(i);
