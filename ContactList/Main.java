@@ -12,9 +12,9 @@ public class Main {
 
 	public static void main(String[] args) {
        try{
-
-          loadContact("contact.txt");
-
+          loadContact("E:\\java1401\\ContactList\\contact.txt");
+          System.out.println(manager);
+		  manageContacts();
        }catch(FileNotFoundException e){
            System.out.println(e.getMessage());
        }finally{
@@ -26,11 +26,13 @@ public class Main {
     }
 
 	public static void loadContact(String addressFile) throws FileNotFoundException {
+		System.out.println("\n\ntest");
 		FileInputStream fis = new FileInputStream(addressFile);
-		Scanner scan = new Scanner(fis);
-		while (scan.hasNextLine()) {
+		
+		Scanner scanfile = new Scanner(fis);
+		while (scanfile.hasNextLine()) {
 			try {
-				Contacts contact = new Contacts(scan.next(), scan.next(), scan.next());
+				Contacts contact = new Contacts(scanfile.next(), scanfile.next(), scanfile.next());
 				manager.addContact(contact);
 
 			} catch (ParseException e) {
@@ -38,7 +40,37 @@ public class Main {
 			}
 
 		}
+		scanfile.close();
 
+	}
+	public static  void manageContacts(){
+		Scanner scan = new Scanner(System.in);
+		while (true){
+			System.out.println("\n\n Please select enter your action : \n \t\t a) for add: \n \t\t b)for remove: \n \t\t c)for exit:");
+			String response = scan.nextLine();
+			if (response.equals("a")){
+				System.out.println("\t name: ");
+				String name = scan.nextLine();
+				System.out.println("\t phone: ");
+				String phone = scan.nextLine();
+				System.out.println("\t birthday: ");
+				String birthday = scan.nextLine();
+				try{
+					manager.addContact(new Contacts(name,phone,birthday));
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+			}else if (response.equals("b")){
+				System.out.println("\n Who would you like to remove? ");
+				manager.removeContacts(scan.nextLine());
+				System.out.println("\n\n Updated Contacts\n\n" + manager);
+			}else{
+				break;
+			}
+			
+		}
+		scan.close();
 	}
 
 }

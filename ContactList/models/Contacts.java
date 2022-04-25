@@ -18,7 +18,7 @@ public class Contacts {
 
 
     public Contacts(String name , String phoneNumber , String birthDate) throws ParseException{
-        if(name == null || name.isBlank() || phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() > 9 ){
+        if(name == null || name.isBlank() || phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() < 9 ){
             throw new IllegalArgumentException("input not acceptabel...");
         }
         this.name = name ;
@@ -28,10 +28,10 @@ public class Contacts {
 
     }
     public Contacts (Contacts contacts ){
-        this.age = contacts.age ;
-        this.birthDate = contacts.birthDate;
         this.name = contacts.name;
         this.phoneNumber = contacts.phoneNumber;
+        this.birthDate = contacts.birthDate;
+        this.age= contacts.age;
     }
 
     public String toString() {
